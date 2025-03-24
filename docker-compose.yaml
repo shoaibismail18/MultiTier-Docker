@@ -1,38 +1,37 @@
 services:
   backend:
-    build: ./mern/backend
+    build: ./backend
     ports:
-      - "5050:5050" 
+      - "5050:5050"
     networks:
       - mern_network
     environment:
-      MONGO_URI: mongodb://mongo:27017/mydatabase  
+      MONGO_URI: mongodb://mongo:27017/mydatabase  # Connection string for MongoDB
     depends_on:
       - mongodb
 
   frontend:
-    build: ./mern/frontend
+    build: ./frontend
     ports:
-      - "5173:5173"  
+      - "5173:5173"
     networks:
       - mern_network
     environment:
-      REACT_APP_API_URL: http://backend:5050 
+      REACT_APP_API_URL: http://backend:5050  # Backend API URL for the frontend
 
   mongodb:
-    image: mongo:latest  
+    image: mongo:latest
     ports:
-      - "27017:27017"  
+      - "27017:27017"
     networks:
       - mern_network
     volumes:
-      - mongo-data:/data/db  
+      - mongo-data:/data/db  # `mongo-data:/data/db` maps the named Docker volume `mongo-data` to MongoDB’s default data directory (`/data/db`) to ensure persistent storage.
 
 networks:
   mern_network:
-    driver: bridge 
+    driver: bridge
 
 volumes:
   mongo-data:
-    driver: local  # Persist MongoDB data locally
-
+    driver: local  # In `volumes: mongo-data: driver: local`, **`local`** means the volume is stored on the host machine's local filesystem, ensuring data persists even if the container stops or is removed.
