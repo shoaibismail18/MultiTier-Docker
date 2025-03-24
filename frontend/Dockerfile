@@ -1,7 +1,4 @@
 # Use the official image as a parent image
-# Description: Dockerfile for the client side of the MERN stack application
-
-# Use the official image as a parent image
 FROM node:18-alpine
 
 # Set the working directory
